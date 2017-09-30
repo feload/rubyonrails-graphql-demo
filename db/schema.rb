@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170930164424) do
+ActiveRecord::Schema.define(version: 20170930213055) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,27 @@ ActiveRecord::Schema.define(version: 20170930164424) do
     t.index ["movie_id"], name: "index_actors_movies_on_movie_id"
   end
 
+  create_table "addresses", force: :cascade do |t|
+    t.string "address"
+    t.integer "client_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "clients", force: :cascade do |t|
+    t.string "name"
+    t.integer "orders_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "clients_roles", force: :cascade do |t|
+    t.bigint "client_id"
+    t.bigint "role_id"
+    t.index ["client_id"], name: "index_clients_roles_on_client_id"
+    t.index ["role_id"], name: "index_clients_roles_on_role_id"
+  end
+
   create_table "comments", force: :cascade do |t|
     t.text "body"
     t.integer "post_id"
@@ -44,9 +65,22 @@ ActiveRecord::Schema.define(version: 20170930164424) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "orders", force: :cascade do |t|
+    t.integer "quantity"
+    t.integer "client_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.string "title"
     t.string "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
